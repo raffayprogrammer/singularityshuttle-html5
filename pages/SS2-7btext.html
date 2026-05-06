@@ -3,60 +3,109 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-<title>Singularity Shuttle — SS2-7btext</title>
+<title>Quantum Field Trip · Singularity Shuttle</title>
+<meta name="description" content="Singularity Shuttle · SS2-7btext · Quantum Field Trip">
 <style>
+  *, *::before, *::after { box-sizing: border-box; }
   html, body {
-    margin: 0;
-    padding: 0;
-    background: #0d0d0d;
-    font-family: system-ui, -apple-system, sans-serif;
+    margin: 0; padding: 0;
+    background:
+      radial-gradient(ellipse at top, rgba(237,21,21,0.08) 0%, transparent 50%),
+      radial-gradient(ellipse at bottom, rgba(50,80,200,0.06) 0%, transparent 60%),
+      #0a0a0a;
+    color: #f0f0f0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
     min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: inherit; }
+  .page-header {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 32px 24px 16px;
+    text-align: center;
+  }
+  .breadcrumb {
+    font-size: 12px;
+    color: #888;
+    margin-bottom: 12px;
+    letter-spacing: 0.4px;
+  }
+  .breadcrumb a { color: #aaa; text-decoration: none; }
+  .breadcrumb a:hover { color: #ed1515; }
+  .breadcrumb span { color: #444; margin: 0 8px; }
+  .page-id {
+    display: inline-block;
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    background: rgba(237,21,21,0.15);
+    border: 1px solid rgba(237,21,21,0.4);
+    color: #ff6b6b;
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    margin-bottom: 12px;
+  }
+  .page-title {
+    font-size: clamp(24px, 4vw, 34px);
+    font-weight: 700;
+    margin: 8px 0 6px;
+    letter-spacing: -0.5px;
+    line-height: 1.15;
+  }
+  .page-section {
+    color: #888;
+    font-size: 14px;
+    margin-bottom: 8px;
+  }
+  .page-meta {
+    color: #555;
+    font-size: 11px;
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    letter-spacing: 0.5px;
   }
   #stageWrap {
     width: 100%;
     display: flex;
     justify-content: center;
-    padding: 20px 0 60px;
-    box-sizing: border-box;
+    padding: 8px 12px 80px;
   }
   #player {
     width: 100%;
     max-width: 684px;
     aspect-ratio: 684 / 2109;
     background: #000;
-    box-shadow: 0 4px 24px rgba(0,0,0,0.4);
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow:
+      0 0 0 1px rgba(255,255,255,0.04),
+      0 16px 48px rgba(0,0,0,0.5),
+      0 0 80px rgba(237,21,21,0.06);
   }
   nav.bottombar {
     position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
+    bottom: 0; left: 0; right: 0;
     padding: 10px 16px;
-    background: rgba(0,0,0,0.85);
-    color: #aaa;
+    background: rgba(10,10,10,0.92);
+    border-top: 1px solid #1a1a1a;
+    color: #888;
     text-align: center;
     font-size: 12px;
     z-index: 100;
-    backdrop-filter: blur(6px);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
   }
   nav.bottombar a {
-    color: #ed1515;
+    color: #ddd;
     text-decoration: none;
-    margin: 0 10px;
-    font-weight: 600;
+    margin: 0 8px;
+    font-weight: 500;
+    transition: color 150ms;
   }
-  nav.bottombar a:hover { text-decoration: underline; }
-  .badge {
-    display: inline-block;
-    padding: 2px 8px;
-    background: #ed1515;
-    color: #fff;
-    font-size: 10px;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    border-radius: 4px;
-    margin-right: 8px;
-  }
+  nav.bottombar a:hover { color: #ed1515; }
+  nav.bottombar .sep { color: #333; margin: 0 4px; }
+  nav.bottombar .ghost { color: #555; }
 </style>
 </head>
 <body>
@@ -92,8 +141,7 @@
       if (d && d.set) {
         var origSet = d.set;
         Object.defineProperty(proto, "href", {
-          configurable: true,
-          enumerable: true,
+          configurable: true, enumerable: true,
           get: d.get,
           set: function (v) { return origSet.call(this, remap(v)); }
         });
@@ -102,17 +150,32 @@
   })();
 </script>
 
+<header class="page-header">
+  <div class="breadcrumb">
+    <a href="/">Singularity Shuttle</a>
+    <span>›</span>
+    <a href="/#contents">Pages</a>
+    <span>›</span>
+    SS2-7btext
+  </div>
+  <span class="page-id">SS2-7btext</span>
+  <h1 class="page-title">Quantum Field Trip</h1>
+  <div class="page-section">The Present · Text-only</div>
+  <div class="page-meta">684 × 2109 · Restored from original 2004 Flash via Ruffle.js</div>
+</header>
+
 <div id="stageWrap">
   <div id="player"></div>
 </div>
 
 <nav class="bottombar">
-  <span class="badge">SS2-7btext</span>
-  Singularity Shuttle &middot; 684 &times; 2109
-  &nbsp;|&nbsp;
+  <a href="/pages/SS2-7b.html">‹ Previous</a>
+  <span class="sep">·</span>
   <a href="/">Home</a>
-  &nbsp;|&nbsp;
+  <span class="sep">·</span>
   <a href="/pages/SS2-J.html">Contents</a>
+  <span class="sep">·</span>
+  <a href="/pages/SS2-8.html">Next ›</a>
 </nav>
 
 <script src="https://unpkg.com/@ruffle-rs/ruffle"></script>
