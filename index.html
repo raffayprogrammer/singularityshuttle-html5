@@ -2,81 +2,190 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Singularity Shuttle — Restoration</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+<title>Singularity Shuttle</title>
 <style>
-  body {
+  html, body {
     margin: 0;
+    padding: 0;
     background: #0d0d0d;
-    color: #f5f5f5;
+    color: #eee;
     font-family: system-ui, -apple-system, sans-serif;
     min-height: 100vh;
+  }
+  header {
+    text-align: center;
+    padding: 24px 16px 8px;
+  }
+  header h1 {
+    font-size: 26px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    margin: 0 0 6px;
+  }
+  header h1 em { color: #ed1515; font-style: normal; }
+  header .sub {
+    font-size: 13px;
+    opacity: 0.6;
+    margin: 0;
+  }
+  #stageWrap {
+    width: 100%;
     display: flex;
-    align-items: center;
     justify-content: center;
+    padding: 24px 0 60px;
+    box-sizing: border-box;
   }
-  .wrap { max-width: 720px; padding: 48px 24px; text-align: center; }
-  h1 { font-size: 32px; letter-spacing: -0.5px; margin: 0 0 16px; }
-  h1 em { color: #ed1515; font-style: normal; }
-  p { line-height: 1.6; opacity: 0.8; margin: 8px 0 24px; }
-  .badge {
-    display: inline-block;
-    padding: 4px 14px;
-    background: #ed1515;
-    color: #fff;
-    font-size: 12px;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-    border-radius: 16px;
-    margin-bottom: 24px;
+  #player {
+    width: 100%;
+    max-width: 684px;
+    aspect-ratio: 684 / 570;
+    background: #000;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.5);
   }
-  .pilot-card {
+  .fallback {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 0 20px 60px;
+    font-size: 13px;
+  }
+  .fallback summary {
+    cursor: pointer;
+    color: #888;
+    padding: 8px 0;
+  }
+  .fallback summary:hover { color: #ed1515; }
+  .pagegrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 8px;
+    margin-top: 12px;
+  }
+  .pagegrid a {
     background: #1a1a1a;
     border: 1px solid #2a2a2a;
-    border-radius: 12px;
-    padding: 28px;
-    margin-top: 32px;
-    text-align: left;
-  }
-  .pilot-card h2 {
-    margin: 0 0 8px;
-    font-size: 18px;
-    color: #ed1515;
-    font-weight: 600;
-  }
-  .pilot-card p { margin: 4px 0 16px; opacity: 0.7; font-size: 14px; }
-  .pilot-link {
-    display: inline-block;
-    background: #ed1515;
-    color: #fff;
-    padding: 12px 24px;
-    border-radius: 8px;
+    color: #ddd;
+    padding: 10px 12px;
+    border-radius: 6px;
     text-decoration: none;
-    font-weight: 600;
-    transition: background 150ms;
-  }
-  .pilot-link:hover { background: #ff4444; }
-  .meta {
-    margin-top: 32px;
+    font-family: ui-monospace, Menlo, monospace;
     font-size: 12px;
-    opacity: 0.4;
-    letter-spacing: 0.5px;
+    text-align: center;
+    transition: all 150ms;
+  }
+  .pagegrid a:hover {
+    background: #ed1515;
+    border-color: #ed1515;
+    color: #fff;
+  }
+  footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 8px 16px;
+    background: rgba(0,0,0,0.85);
+    color: #666;
+    text-align: center;
+    font-size: 11px;
+    backdrop-filter: blur(6px);
   }
 </style>
 </head>
 <body>
-  <div class="wrap">
-    <div class="badge">Module 1 Complete &middot; Path A Pilot Live</div>
-    <h1>Singularity <em>Shuttle</em> — Restoration</h1>
-    <p>31-page Flash experience (2004) being rebuilt for modern browsers using Ruffle.js as the runtime. No plugin, no installation.</p>
 
-    <div class="pilot-card">
-      <h2>Pilot — Page 1 (SS2-1)</h2>
-      <p>First page running in-browser via Ruffle.js. Click below and confirm: animation plays, audio plays, page is responsive.</p>
-      <a href="pages/SS2-1.html" class="pilot-link">View SS2-1 →</a>
+<header>
+  <h1>Singularity <em>Shuttle</em></h1>
+  <p class="sub">31-page restoration &middot; click any cell to navigate</p>
+</header>
+
+<script>
+  // URL rewriting for navigation calls coming from the SWF
+  (function () {
+    var origOpen = window.open.bind(window);
+    function remap(u) {
+      if (typeof u !== "string") return u;
+      var m = u.match(/^https?:\/\/(www\.)?singularityshuttle\.com\/(.*)$/i);
+      if (!m) return u;
+      var path = m[2];
+      if (path === "" || path.toLowerCase() === "index.html") return "/";
+      return "/pages/" + path;
+    }
+    window.open = function (url, name, features) {
+      return origOpen(remap(url), name, features);
+    };
+    try {
+      var loc = window.location;
+      var ass = loc.assign && loc.assign.bind(loc);
+      if (ass) loc.assign = function (u) { return ass(remap(u)); };
+      var rep = loc.replace && loc.replace.bind(loc);
+      if (rep) loc.replace = function (u) { return rep(remap(u)); };
+    } catch (e) { /* noop */ }
+  })();
+</script>
+
+<div id="stageWrap">
+  <div id="player"></div>
+</div>
+
+<div class="fallback">
+  <details>
+    <summary>Or browse all 31 pages directly</summary>
+    <div class="pagegrid">
+      <a href="/pages/SS2-1.html">SS2-1</a>
+      <a href="/pages/SS2-1text.html">SS2-1 text</a>
+      <a href="/pages/SS2-2.html">SS2-2</a>
+      <a href="/pages/SS2-2text.html">SS2-2 text</a>
+      <a href="/pages/SS2-3.html">SS2-3</a>
+      <a href="/pages/SS2-3text.html">SS2-3 text</a>
+      <a href="/pages/SS2-3a.html">SS2-3a</a>
+      <a href="/pages/SS2-3atext.html">SS2-3a text</a>
+      <a href="/pages/SS2-4.html">SS2-4</a>
+      <a href="/pages/SS2-4text.html">SS2-4 text</a>
+      <a href="/pages/SS2-4a.html">SS2-4a</a>
+      <a href="/pages/SS2-4atext.html">SS2-4a text</a>
+      <a href="/pages/SS2-5.html">SS2-5</a>
+      <a href="/pages/SS2-5text.html">SS2-5 text</a>
+      <a href="/pages/SS2-5a.html">SS2-5a</a>
+      <a href="/pages/SS2-5atext.html">SS2-5a text</a>
+      <a href="/pages/SS2-6.html">SS2-6</a>
+      <a href="/pages/SS2-6text.html">SS2-6 text</a>
+      <a href="/pages/SS2-6a.html">SS2-6a</a>
+      <a href="/pages/SS2-6atext.html">SS2-6a text</a>
+      <a href="/pages/SS2-7.html">SS2-7</a>
+      <a href="/pages/SS2-7text.html">SS2-7 text</a>
+      <a href="/pages/SS2-7a.html">SS2-7a</a>
+      <a href="/pages/SS2-7atext.html">SS2-7a text</a>
+      <a href="/pages/SS2-7b.html">SS2-7b</a>
+      <a href="/pages/SS2-7btext.html">SS2-7b text</a>
+      <a href="/pages/SS2-8.html">SS2-8</a>
+      <a href="/pages/SS2-8text.html">SS2-8 text</a>
+      <a href="/pages/SS2-8a.html">SS2-8a</a>
+      <a href="/pages/SS2-8atext.html">SS2-8a text</a>
+      <a href="/pages/SS2-J.html">SS2-J (jump)</a>
     </div>
+  </details>
+</div>
 
-    <div class="meta">Redstone Catalyst &middot; Flash to HTML5 Conversion</div>
-  </div>
+<footer>Singularity Shuttle &middot; HTML5 restoration via Ruffle.js &middot; Redstone Catalyst</footer>
+
+<script src="https://unpkg.com/@ruffle-rs/ruffle"></script>
+<script>
+  window.RufflePlayer = window.RufflePlayer || {};
+  window.addEventListener("load", function () {
+    var ruffle = window.RufflePlayer.newest();
+    var player = ruffle.createPlayer();
+    var container = document.getElementById("player");
+    container.appendChild(player);
+    player.load({
+      url: "/pages/SS2-J.swf",
+      autoplay: "auto",
+      unmuteOverlay: "visible",
+      letterbox: "on",
+      scale: "showAll"
+    });
+  });
+</script>
+
 </body>
 </html>
