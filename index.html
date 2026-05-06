@@ -3,106 +3,242 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-<title>Singularity Shuttle</title>
+<title>Singularity Shuttle — HTML5 Restoration</title>
+<meta name="description" content="The 31-page Singularity Shuttle interactive Flash experience (2004), restored for modern browsers.">
 <style>
+  *, *::before, *::after { box-sizing: border-box; }
   html, body {
     margin: 0;
     padding: 0;
-    background: #0d0d0d;
-    color: #eee;
-    font-family: system-ui, -apple-system, sans-serif;
-    min-height: 100vh;
+    background: #0a0a0a;
+    color: #f0f0f0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
   }
-  header {
+  a { color: inherit; }
+
+  /* HERO */
+  .hero {
+    position: relative;
+    min-height: 70vh;
+    padding: 80px 24px 60px;
     text-align: center;
-    padding: 24px 16px 8px;
+    overflow: hidden;
+    background:
+      radial-gradient(ellipse at top, rgba(237,21,21,0.18) 0%, transparent 50%),
+      radial-gradient(ellipse at bottom, rgba(50,80,200,0.10) 0%, transparent 60%),
+      #0a0a0a;
   }
-  header h1 {
-    font-size: 26px;
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      radial-gradient(circle at 20% 30%, rgba(255,255,255,0.4) 1px, transparent 1px),
+      radial-gradient(circle at 70% 60%, rgba(255,255,255,0.3) 1px, transparent 1px),
+      radial-gradient(circle at 40% 80%, rgba(255,255,255,0.5) 1px, transparent 1px),
+      radial-gradient(circle at 80% 20%, rgba(255,255,255,0.3) 1px, transparent 1px),
+      radial-gradient(circle at 10% 70%, rgba(255,255,255,0.4) 1px, transparent 1px);
+    background-size: 250px 250px, 180px 180px, 320px 320px, 220px 220px, 280px 280px;
+    opacity: 0.6;
+    pointer-events: none;
+  }
+  .hero-inner { position: relative; max-width: 760px; margin: 0 auto; }
+  .badge {
+    display: inline-block;
+    padding: 6px 14px;
+    background: rgba(237,21,21,0.15);
+    border: 1px solid rgba(237,21,21,0.4);
+    color: #ff6b6b;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    border-radius: 30px;
+    margin-bottom: 24px;
+    font-weight: 600;
+  }
+  .hero h1 {
+    font-size: clamp(42px, 7vw, 72px);
+    font-weight: 800;
+    letter-spacing: -2px;
+    line-height: 1.05;
+    margin: 0 0 20px;
+  }
+  .hero h1 em {
+    color: #ed1515;
+    font-style: normal;
+    text-shadow: 0 0 40px rgba(237,21,21,0.4);
+  }
+  .hero p {
+    font-size: 18px;
+    opacity: 0.7;
+    max-width: 560px;
+    margin: 0 auto 36px;
+  }
+  .cta-row { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+  .cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 14px 28px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 15px;
+    transition: all 200ms ease;
+  }
+  .cta-primary {
+    background: #ed1515;
+    color: #fff;
+    box-shadow: 0 4px 24px rgba(237,21,21,0.3);
+  }
+  .cta-primary:hover {
+    background: #ff4444;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 32px rgba(237,21,21,0.5);
+  }
+  .cta-ghost {
+    background: rgba(255,255,255,0.08);
+    color: #ddd;
+    border: 1px solid rgba(255,255,255,0.15);
+  }
+  .cta-ghost:hover { background: rgba(255,255,255,0.14); }
+
+  .stats {
+    display: flex;
+    gap: 40px;
+    justify-content: center;
+    margin-top: 56px;
+    flex-wrap: wrap;
+  }
+  .stat-item { text-align: center; }
+  .stat-num {
+    font-size: 32px;
+    font-weight: 800;
+    color: #ed1515;
+    line-height: 1;
+  }
+  .stat-label {
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    opacity: 0.5;
+    margin-top: 6px;
+  }
+
+  /* SECTION */
+  section {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 80px 24px;
+  }
+  section h2 {
+    font-size: 28px;
     font-weight: 700;
     letter-spacing: -0.5px;
-    margin: 0 0 6px;
+    margin: 0 0 8px;
   }
-  header h1 em { color: #ed1515; font-style: normal; }
-  header .sub {
+  section .lead {
+    color: #888;
+    font-size: 15px;
+    margin: 0 0 32px;
+    max-width: 640px;
+  }
+
+  /* PAGE GRID */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 12px;
+  }
+  .card {
+    display: block;
+    background: linear-gradient(135deg, #161616 0%, #0e0e0e 100%);
+    border: 1px solid #222;
+    border-radius: 10px;
+    padding: 18px 18px 16px;
+    text-decoration: none;
+    color: inherit;
+    transition: all 200ms ease;
+    position: relative;
+    overflow: hidden;
+  }
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 3px;
+    height: 100%;
+    background: #ed1515;
+    transform: scaleY(0);
+    transition: transform 200ms ease;
+    transform-origin: bottom;
+  }
+  .card:hover {
+    border-color: #ed1515;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(237,21,21,0.15);
+  }
+  .card:hover::before { transform: scaleY(1); }
+  .card-id {
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
     font-size: 13px;
-    opacity: 0.6;
-    margin: 0;
+    color: #ed1515;
+    font-weight: 600;
+    letter-spacing: 0.5px;
   }
-  #stageWrap {
+  .card-title {
+    font-size: 14px;
+    font-weight: 500;
+    margin-top: 4px;
+    color: #ddd;
+  }
+  .card-meta {
+    font-size: 11px;
+    color: #666;
+    margin-top: 6px;
+    letter-spacing: 0.3px;
+  }
+  .card-text { opacity: 0.6; }
+  .card-jump { background: linear-gradient(135deg, #1f0a0a 0%, #0a0a0a 100%); }
+  .card-jump .card-id { color: #ff6b6b; }
+
+  /* HUB */
+  .hub-section { background: #0e0e0e; }
+  .hub-wrap {
     width: 100%;
     display: flex;
     justify-content: center;
-    padding: 24px 0 60px;
-    box-sizing: border-box;
+    margin-top: 24px;
   }
-  #player {
+  .hub-player {
     width: 100%;
     max-width: 684px;
     aspect-ratio: 684 / 570;
     background: #000;
-    box-shadow: 0 4px 24px rgba(0,0,0,0.5);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 16px 48px rgba(0,0,0,0.5);
   }
-  .fallback {
-    max-width: 720px;
-    margin: 0 auto;
-    padding: 0 20px 60px;
-    font-size: 13px;
-  }
-  .fallback summary {
-    cursor: pointer;
-    color: #888;
-    padding: 8px 0;
-  }
-  .fallback summary:hover { color: #ed1515; }
-  .pagegrid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-    gap: 8px;
-    margin-top: 12px;
-  }
-  .pagegrid a {
-    background: #1a1a1a;
-    border: 1px solid #2a2a2a;
-    color: #ddd;
-    padding: 10px 12px;
-    border-radius: 6px;
-    text-decoration: none;
-    font-family: ui-monospace, Menlo, monospace;
-    font-size: 12px;
-    text-align: center;
-    transition: all 150ms;
-  }
-  .pagegrid a:hover {
-    background: #ed1515;
-    border-color: #ed1515;
-    color: #fff;
-  }
+
   footer {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    padding: 8px 16px;
-    background: rgba(0,0,0,0.85);
-    color: #666;
     text-align: center;
-    font-size: 11px;
-    backdrop-filter: blur(6px);
+    padding: 32px 24px;
+    color: #555;
+    font-size: 12px;
+    border-top: 1px solid #1a1a1a;
   }
+  footer a { color: #888; text-decoration: none; }
+  footer a:hover { color: #ed1515; }
 </style>
 </head>
 <body>
 
-<header>
-  <h1>Singularity <em>Shuttle</em></h1>
-  <p class="sub">31-page restoration &middot; click any cell to navigate</p>
-</header>
-
 <script>
-  // URL rewriting for navigation calls coming from the SWF
+  /* URL rewriting — three independent overrides for Ruffle's navigation paths */
   (function () {
-    var origOpen = window.open.bind(window);
     function remap(u) {
       if (typeof u !== "string") return u;
       var m = u.match(/^https?:\/\/(www\.)?singularityshuttle\.com\/(.*)$/i);
@@ -111,63 +247,119 @@
       if (path === "" || path.toLowerCase() === "index.html") return "/";
       return "/pages/" + path;
     }
+
+    // 1) window.open
+    var origOpen = window.open.bind(window);
     window.open = function (url, name, features) {
       return origOpen(remap(url), name, features);
     };
+
+    // 2) location.assign / location.replace
     try {
       var loc = window.location;
       var ass = loc.assign && loc.assign.bind(loc);
       if (ass) loc.assign = function (u) { return ass(remap(u)); };
       var rep = loc.replace && loc.replace.bind(loc);
       if (rep) loc.replace = function (u) { return rep(remap(u)); };
-    } catch (e) { /* noop */ }
+    } catch (e) { /* silent */ }
+
+    // 3) location.href setter — Ruffle's primary path for _self navigation
+    try {
+      var proto = Location.prototype;
+      var d = Object.getOwnPropertyDescriptor(proto, "href");
+      if (d && d.set) {
+        var origSet = d.set;
+        Object.defineProperty(proto, "href", {
+          configurable: true,
+          enumerable: true,
+          get: d.get,
+          set: function (v) { return origSet.call(this, remap(v)); }
+        });
+      }
+    } catch (e) { /* silent */ }
   })();
 </script>
 
-<div id="stageWrap">
-  <div id="player"></div>
-</div>
-
-<div class="fallback">
-  <details>
-    <summary>Or browse all 31 pages directly</summary>
-    <div class="pagegrid">
-      <a href="/pages/SS2-1.html">SS2-1</a>
-      <a href="/pages/SS2-1text.html">SS2-1 text</a>
-      <a href="/pages/SS2-2.html">SS2-2</a>
-      <a href="/pages/SS2-2text.html">SS2-2 text</a>
-      <a href="/pages/SS2-3.html">SS2-3</a>
-      <a href="/pages/SS2-3text.html">SS2-3 text</a>
-      <a href="/pages/SS2-3a.html">SS2-3a</a>
-      <a href="/pages/SS2-3atext.html">SS2-3a text</a>
-      <a href="/pages/SS2-4.html">SS2-4</a>
-      <a href="/pages/SS2-4text.html">SS2-4 text</a>
-      <a href="/pages/SS2-4a.html">SS2-4a</a>
-      <a href="/pages/SS2-4atext.html">SS2-4a text</a>
-      <a href="/pages/SS2-5.html">SS2-5</a>
-      <a href="/pages/SS2-5text.html">SS2-5 text</a>
-      <a href="/pages/SS2-5a.html">SS2-5a</a>
-      <a href="/pages/SS2-5atext.html">SS2-5a text</a>
-      <a href="/pages/SS2-6.html">SS2-6</a>
-      <a href="/pages/SS2-6text.html">SS2-6 text</a>
-      <a href="/pages/SS2-6a.html">SS2-6a</a>
-      <a href="/pages/SS2-6atext.html">SS2-6a text</a>
-      <a href="/pages/SS2-7.html">SS2-7</a>
-      <a href="/pages/SS2-7text.html">SS2-7 text</a>
-      <a href="/pages/SS2-7a.html">SS2-7a</a>
-      <a href="/pages/SS2-7atext.html">SS2-7a text</a>
-      <a href="/pages/SS2-7b.html">SS2-7b</a>
-      <a href="/pages/SS2-7btext.html">SS2-7b text</a>
-      <a href="/pages/SS2-8.html">SS2-8</a>
-      <a href="/pages/SS2-8text.html">SS2-8 text</a>
-      <a href="/pages/SS2-8a.html">SS2-8a</a>
-      <a href="/pages/SS2-8atext.html">SS2-8a text</a>
-      <a href="/pages/SS2-J.html">SS2-J (jump)</a>
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-inner">
+    <span class="badge">HTML5 Restoration · Live Preview</span>
+    <h1>Singularity <em>Shuttle</em></h1>
+    <p>The 31-page interactive Flash experience from 2004, restored for modern browsers. Animation, narration, and interactivity preserved. No plugin, no installation — runs anywhere.</p>
+    <div class="cta-row">
+      <a href="/pages/SS2-1.html" class="cta cta-primary">Begin Experience →</a>
+      <a href="#contents" class="cta cta-ghost">Browse All Pages</a>
     </div>
-  </details>
+    <div class="stats">
+      <div class="stat-item"><div class="stat-num">31</div><div class="stat-label">Pages</div></div>
+      <div class="stat-item"><div class="stat-num">60+</div><div class="stat-label">Min Runtime</div></div>
+      <div class="stat-item"><div class="stat-num">2004</div><div class="stat-label">Originally Published</div></div>
+      <div class="stat-item"><div class="stat-num">100%</div><div class="stat-label">Browser Native</div></div>
+    </div>
+  </div>
 </div>
 
-<footer>Singularity Shuttle &middot; HTML5 restoration via Ruffle.js &middot; Redstone Catalyst</footer>
+<!-- PAGE GRID -->
+<section id="contents">
+  <h2>All 31 Pages</h2>
+  <p class="lead">Click any card to open that page. Each page renders the original animation, audio, and interactivity exactly as it appeared in 2004.</p>
+
+  <div class="grid">
+    <a class="card" href="/pages/SS2-1.html"><div class="card-id">SS2-1</div><div class="card-title">A Question of Time</div><div class="card-meta">Introduction · Full</div></a>
+    <a class="card card-text" href="/pages/SS2-1text.html"><div class="card-id">SS2-1text</div><div class="card-title">A Question of Time</div><div class="card-meta">Introduction · Text only</div></a>
+
+    <a class="card" href="/pages/SS2-2.html"><div class="card-id">SS2-2</div><div class="card-title">Newton's Universe</div><div class="card-meta">The Past · Free-Fall</div></a>
+    <a class="card card-text" href="/pages/SS2-2text.html"><div class="card-id">SS2-2text</div><div class="card-title">Newton's Universe</div><div class="card-meta">The Past · Text only</div></a>
+
+    <a class="card" href="/pages/SS2-3.html"><div class="card-id">SS2-3</div><div class="card-title">Einstein's Spacetime</div><div class="card-meta">Earth Origin · Full</div></a>
+    <a class="card card-text" href="/pages/SS2-3text.html"><div class="card-id">SS2-3text</div><div class="card-title">Einstein's Spacetime</div><div class="card-meta">Earth Origin · Text only</div></a>
+    <a class="card" href="/pages/SS2-3a.html"><div class="card-id">SS2-3a</div><div class="card-title">Relative Motion</div><div class="card-meta">Earth Origin · Full</div></a>
+    <a class="card card-text" href="/pages/SS2-3atext.html"><div class="card-id">SS2-3atext</div><div class="card-title">Relative Motion</div><div class="card-meta">Earth Origin · Text only</div></a>
+
+    <a class="card" href="/pages/SS2-4.html"><div class="card-id">SS2-4</div><div class="card-title">Einstein's Gravitation</div><div class="card-meta">Solar Origin · Full</div></a>
+    <a class="card card-text" href="/pages/SS2-4text.html"><div class="card-id">SS2-4text</div><div class="card-title">Einstein's Gravitation</div><div class="card-meta">Solar Origin · Text only</div></a>
+    <a class="card" href="/pages/SS2-4a.html"><div class="card-id">SS2-4a</div><div class="card-title">Relativistic Effects</div><div class="card-meta">Solar Origin · Full</div></a>
+    <a class="card card-text" href="/pages/SS2-4atext.html"><div class="card-id">SS2-4atext</div><div class="card-title">Relativistic Effects</div><div class="card-meta">Solar Origin · Text only</div></a>
+
+    <a class="card" href="/pages/SS2-5.html"><div class="card-id">SS2-5</div><div class="card-title">Cosmic Domain</div><div class="card-meta">Galactic Origin · Full</div></a>
+    <a class="card card-text" href="/pages/SS2-5text.html"><div class="card-id">SS2-5text</div><div class="card-title">Cosmic Domain</div><div class="card-meta">Galactic Origin · Text only</div></a>
+    <a class="card" href="/pages/SS2-5a.html"><div class="card-id">SS2-5a</div><div class="card-title">Imaginary Time</div><div class="card-meta">Galactic Origin · Full</div></a>
+    <a class="card card-text" href="/pages/SS2-5atext.html"><div class="card-id">SS2-5atext</div><div class="card-title">Imaginary Time</div><div class="card-meta">Galactic Origin · Text only</div></a>
+
+    <a class="card" href="/pages/SS2-6.html"><div class="card-id">SS2-6</div><div class="card-title">Quantum Domain</div><div class="card-meta">Universal Origin · Full</div></a>
+    <a class="card card-text" href="/pages/SS2-6text.html"><div class="card-id">SS2-6text</div><div class="card-title">Quantum Domain</div><div class="card-meta">Universal Origin · Text only</div></a>
+    <a class="card" href="/pages/SS2-6a.html"><div class="card-id">SS2-6a</div><div class="card-title">End of Time</div><div class="card-meta">Universal Origin · Full</div></a>
+    <a class="card card-text" href="/pages/SS2-6atext.html"><div class="card-id">SS2-6atext</div><div class="card-title">End of Time</div><div class="card-meta">Universal Origin · Text only</div></a>
+
+    <a class="card" href="/pages/SS2-7.html"><div class="card-id">SS2-7</div><div class="card-title">Temporal Topography</div><div class="card-meta">The Present · Full</div></a>
+    <a class="card card-text" href="/pages/SS2-7text.html"><div class="card-id">SS2-7text</div><div class="card-title">Temporal Topography</div><div class="card-meta">The Present · Text only</div></a>
+    <a class="card" href="/pages/SS2-7a.html"><div class="card-id">SS2-7a</div><div class="card-title">Temporal Continuum Hypothesis</div><div class="card-meta">The Present · Full</div></a>
+    <a class="card card-text" href="/pages/SS2-7atext.html"><div class="card-id">SS2-7atext</div><div class="card-title">Temporal Continuum Hypothesis</div><div class="card-meta">The Present · Text only</div></a>
+    <a class="card" href="/pages/SS2-7b.html"><div class="card-id">SS2-7b</div><div class="card-title">Quantum Field Trip</div><div class="card-meta">The Present · Full</div></a>
+    <a class="card card-text" href="/pages/SS2-7btext.html"><div class="card-id">SS2-7btext</div><div class="card-title">Quantum Field Trip</div><div class="card-meta">The Present · Text only</div></a>
+
+    <a class="card" href="/pages/SS2-8.html"><div class="card-id">SS2-8</div><div class="card-title">Physics and Metaphysics</div><div class="card-meta">The Future · Full</div></a>
+    <a class="card card-text" href="/pages/SS2-8text.html"><div class="card-id">SS2-8text</div><div class="card-title">Physics and Metaphysics</div><div class="card-meta">The Future · Text only</div></a>
+    <a class="card" href="/pages/SS2-8a.html"><div class="card-id">SS2-8a</div><div class="card-title">Conscious Field Trip</div><div class="card-meta">The Future · Full</div></a>
+    <a class="card card-text" href="/pages/SS2-8atext.html"><div class="card-id">SS2-8atext</div><div class="card-title">Conscious Field Trip</div><div class="card-meta">The Future · Text only</div></a>
+
+    <a class="card card-jump" href="/pages/SS2-J.html"><div class="card-id">SS2-J</div><div class="card-title">Jump / Contents</div><div class="card-meta">Original navigation hub</div></a>
+  </div>
+</section>
+
+<!-- ORIGINAL HUB EMBED -->
+<section class="hub-section">
+  <h2>Original 2004 Navigation Hub</h2>
+  <p class="lead">Below is the original SS2-J jump page exactly as it appeared in 2004 — running here in your browser via Ruffle.js, no plugin needed. The cards above are the modern equivalent.</p>
+
+  <div class="hub-wrap">
+    <div class="hub-player" id="player"></div>
+  </div>
+</section>
+
+<footer>
+  Singularity Shuttle &middot; HTML5 restoration via <a href="https://ruffle.rs" target="_blank" rel="noopener">Ruffle.js</a> &middot; Redstone Catalyst
+</footer>
 
 <script src="https://unpkg.com/@ruffle-rs/ruffle"></script>
 <script>

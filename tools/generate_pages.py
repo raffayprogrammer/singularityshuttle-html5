@@ -79,31 +79,43 @@ TEMPLATE = """<!DOCTYPE html>
 <body>
 
 <script>
-  // ===== URL rewriting =====
-  // The original SWFs reference http://www.singularityshuttle.com/SS2-X.html
-  // for cross-page navigation. Intercept those calls and redirect to local paths.
+  // URL rewriting — three independent overrides for Ruffle's navigation paths
   (function () {{
-    var origOpen = window.open.bind(window);
     function remap(u) {{
       if (typeof u !== "string") return u;
       var m = u.match(/^https?:\\/\\/(www\\.)?singularityshuttle\\.com\\/(.*)$/i);
       if (!m) return u;
       var path = m[2];
       if (path === "" || path.toLowerCase() === "index.html") return "/";
-      // SS2-X.html or any other file
       return "/pages/" + path;
     }}
+
+    var origOpen = window.open.bind(window);
     window.open = function (url, name, features) {{
       return origOpen(remap(url), name, features);
     }};
-    // Cover Ruffle's location.assign / replace / href setter paths too
+
     try {{
       var loc = window.location;
       var ass = loc.assign && loc.assign.bind(loc);
       if (ass) loc.assign = function (u) {{ return ass(remap(u)); }};
       var rep = loc.replace && loc.replace.bind(loc);
       if (rep) loc.replace = function (u) {{ return rep(remap(u)); }};
-    }} catch (e) {{ /* read-only on some browsers; window.open is the main path anyway */ }}
+    }} catch (e) {{ /* silent */ }}
+
+    try {{
+      var proto = Location.prototype;
+      var d = Object.getOwnPropertyDescriptor(proto, "href");
+      if (d && d.set) {{
+        var origSet = d.set;
+        Object.defineProperty(proto, "href", {{
+          configurable: true,
+          enumerable: true,
+          get: d.get,
+          set: function (v) {{ return origSet.call(this, remap(v)); }}
+        }});
+      }}
+    }} catch (e) {{ /* silent */ }}
   }})();
 </script>
 
