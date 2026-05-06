@@ -126,8 +126,10 @@ git push -u origin main
 
 1. Repo → Settings → Pages
 2. Source: **Deploy from branch**
-3. Branch: **main** &nbsp;|&nbsp; Folder: **`/build`**
+3. Branch: **main** &nbsp;|&nbsp; Folder: **`/(root)`**
 4. Save → wait ~1 minute → Pages URL appears at top of Settings → Pages
+
+(GitHub Pages only allows `/(root)` or `/docs` — that's why deployable files live at repo root, not in a `build/` subfolder.)
 
 The build is then live at `https://<your-username>.github.io/singularityshuttle-html5/` — this is your **staging URL** for client review. As you convert pages and commit them to `build/pages/`, GitHub Pages auto-deploys on push.
 

@@ -8,16 +8,17 @@ Module 1 (Environment & Pipeline Setup) — see [`docs/MODULE1_DONE.md`](docs/MO
 
 ## Repo Layout
 
+The repo root IS the deployable site (GitHub Pages requires either `/(root)` or `/docs`).
+
 ```
 SingularityShuttle/
-├── source/              Original FLA / SWF / HTML / audio (NOT in git — too large)
-├── build/               Final HTML5 output (deployable)
-│   ├── pages/           One .html + .js per page (31 total)
-│   ├── assets/          Re-organised audio + extracted images
-│   └── lib/             Shared CreateJS + responsive scaler
+├── index.html           Landing page (auto-deployed by GitHub Pages)
+├── pages/               One .html + .swf per page (31 total)
+├── lib/                 Shared CreateJS + responsive scaler (Path B fallback)
 ├── docs/                inventory.csv, audio-map.csv, handover docs
 ├── tests/               Per-page parity screenshots
-└── tools/               Ruffle, FLA/SWF parser scripts
+├── tools/               Ruffle, FLA/SWF parser scripts (gitignored binaries)
+└── source/              Original FLA / SWF / HTML / audio (NOT in git — too large)
 ```
 
 ## Tech Stack
