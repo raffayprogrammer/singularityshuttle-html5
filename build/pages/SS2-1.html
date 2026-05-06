@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+<title>Singularity Shuttle — SS2-1</title>
+<style>
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: #d0d0d0;
+    font-family: system-ui, sans-serif;
+    min-height: 100vh;
+  }
+  #stageWrap {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 20px 0;
+    box-sizing: border-box;
+  }
+  #player {
+    width: 100%;
+    max-width: 684px;
+    aspect-ratio: 684 / 1795;
+    background: #000;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.15);
+  }
+  nav.bottombar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 10px 16px;
+    background: rgba(0,0,0,0.85);
+    color: #fff;
+    text-align: center;
+    font-size: 13px;
+    z-index: 100;
+  }
+  nav.bottombar a {
+    color: #ed1515;
+    text-decoration: none;
+    margin: 0 10px;
+    font-weight: 600;
+  }
+  nav.bottombar a:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+
+<div id="stageWrap">
+  <div id="player"></div>
+</div>
+
+<nav class="bottombar">
+  Singularity Shuttle &middot; SS2-1 (Pilot — Ruffle.js)
+  &nbsp;|&nbsp;
+  <a href="../index.html">Home</a>
+</nav>
+
+<script src="https://unpkg.com/@ruffle-rs/ruffle"></script>
+<script>
+  window.RufflePlayer = window.RufflePlayer || {};
+  window.addEventListener("load", function () {
+    var ruffle = window.RufflePlayer.newest();
+    var player = ruffle.createPlayer();
+    var container = document.getElementById("player");
+    container.appendChild(player);
+    player.load({
+      url: "SS2-1.swf",
+      autoplay: "auto",          // play once user clicks (Ruffle handles its own gate)
+      unmuteOverlay: "visible",  // show "click to unmute" if browser blocks audio
+      letterbox: "on",
+      scale: "showAll"           // preserve aspect ratio
+    });
+  });
+</script>
+
+</body>
+</html>
