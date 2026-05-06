@@ -1,0 +1,28 @@
+# Source binaries — too large for git, kept locally / in cloud storage
+source/fla/
+source/swf/
+source/audio/wav/
+source/audio/sfk-archive/
+
+# Keep MP3 in git (smaller) but exempt large ones
+# source/audio/mp3/  -- include by default, override with .gitattributes if needed
+
+# Tools (downloaded, not source)
+tools/ruffle/
+tools/*.exe
+
+# Adobe Animate working files (binary, not for git)
+*.fla.bak
+*.xfl/
+
+# OS / editor cruft
+.DS_Store
+Thumbs.db
+desktop.ini
+*.swp
+*~
+.vscode/
+.idea/
+
+# Build intermediates (uncomment if Animate publishes here too)
+# build/pages/*.fla

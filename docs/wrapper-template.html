@@ -1,0 +1,50 @@
+<!--
+  Singularity Shuttle — shared HTML5 wrapper template.
+  Per-page substitutions (do this when publishing each page from Animate):
+    {{PAGE_ID}}  - e.g. SS2-1
+    {{STAGE_W}}  - integer pixel width  (e.g. 684)
+    {{STAGE_H}}  - integer pixel height (e.g. 1795)
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+<title>Singularity Shuttle — {{PAGE_ID}}</title>
+<style>
+  html, body { margin: 0; padding: 0; background: #d0d0d0; font-family: sans-serif; }
+  #stageWrap { width: 100%; display: flex; justify-content: center; }
+  #stageInner { width: {{STAGE_W}}px; transform-origin: top center; }
+  canvas { display: block; }
+
+  /* Mobile audio gate overlay */
+  #audioGate {
+    position: fixed; inset: 0; background: #000;
+    display: flex; align-items: center; justify-content: center;
+    z-index: 9999; cursor: pointer; transition: opacity 250ms ease;
+  }
+  .audioGateInner { color: #fff; text-align: center; user-select: none; }
+  .audioGateTitle { font-size: 22px; letter-spacing: 2px; margin-bottom: 12px; }
+  .audioGateHint { font-size: 14px; opacity: 0.7; }
+</style>
+</head>
+<body>
+  <div id="stageWrap">
+    <div id="stageInner">
+      <canvas id="canvas" width="{{STAGE_W}}" height="{{STAGE_H}}"></canvas>
+    </div>
+  </div>
+
+  <script src="../lib/createjs.min.js"></script>
+  <script src="../lib/wrapper.js"></script>
+  <script src="{{PAGE_ID}}.js"></script>
+  <script>
+    // Animate's exporter generates an init() function that boots the canvas.
+    // We wrap it behind the audio gate so playback only starts on user tap.
+    mountAudioGate(function () {
+      if (typeof init === "function") init();
+    });
+    fitStage({{STAGE_W}}, {{STAGE_H}});
+  </script>
+</body>
+</html>

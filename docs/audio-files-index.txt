@@ -1,0 +1,186 @@
+# Available audio assets in source/audio/
+
+## MP3
+8000 series 042.mp3
+alarm esotron.mp3
+alarm rave.mp3
+alarm sonar.mp3
+alarm tug.mp3
+alarm warning.mp3
+ASTRAL DAWN.mp3
+BOOMS 022.mp3
+BOOMS 029.mp3
+chimerian sun atmosphere.mp3
+COMPU 012.mp3
+EVERGREEN.mp3
+explosions 002+.mp3
+explosions 003.mp3
+flight 029.mp3
+flight 054.mp3
+flight 055.mp3
+flight 066-2.mp3
+flight 066.mp3
+flybyss 001.mp3
+flybyss 004.mp3
+lift 1.mp3
+Machine hum with heartbeat.mp3
+Particle beaming device 3.mp3
+phneumatics 001.mp3
+Rocket mash.mp3
+ship drone 3.mp3
+ship inner doors 001.mp3
+ship outer doors 016.mp3
+ships control room 5.mp3
+SHORT SFX 048.mp3
+silicon elements.mp3
+Space transitions 005.mp3
+Space transitions 006.mp3
+Space transitions 008.mp3
+STARSHIP FX1.mp3
+STARSHIP FX1a.mp3
+STARSHIP FX47.mp3
+STRANGE 017.mp3
+XEON HEAVEN.mp3
+XEON SUMMER 1.mp3
+Xeon Summer 2.mp3
+Xeon Summer 2a.mp3
+
+## WAV
+8000 series 042.wav
+8000 series 044.wav
+alarm esotron.wav
+alarm rave.wav
+alarm sonar.wav
+alarm submarine.wav
+alarm tug.wav
+alarm warning.wav
+ARCUS 1.wav
+ASTRAL DAWN.wav
+BOAz PLANE.wav
+BOOMS 006.wav
+BOOMS 007.wav
+BOOMS 013.wav
+BOOMS 017.wav
+BOOMS 019.wav
+BOOMS 022.wav
+BOOMS 023.wav
+BOOMS 029.wav
+CELESTIAL SANCTUM 1.wav
+chimerian sun atmosphere.wav
+COMPU 002.wav
+COMPU 004.wav
+COMPU 012.wav
+COMPU 020.wav
+CRysALINE CHURCH.wav
+DAKINI 1.wav
+deep space atmosphere.wav
+EASTERN FIZz.wav
+ELECTRICITY 000.wav
+EVERGREEN.wav
+explosions 002.wav
+explosions 003.wav
+flight 004.wav
+flight 007.wav
+flight 011.wav
+flight 028.wav
+flight 029.wav
+flight 030.wav
+flight 031.wav
+flight 040.wav
+flight 044.wav
+flight 050.wav
+flight 054.wav
+flight 055.wav
+flight 056.wav
+flight 057.wav
+flight 058.wav
+flight 064.wav
+flight 066.wav
+flight 067.wav
+flight 069.wav
+flybyss 001.wav
+flybyss 004.wav
+flybyss 006.wav
+flybyss 007.wav
+flybyss 008.wav
+flybyss 012.wav
+flybyss 015.wav
+flybyss 016.wav
+foam water.wav
+GALAXON 1.wav
+GALAXON 2.wav
+jet interior 1.wav
+jet interior 2.wav
+jet interior 3.wav
+Jet start 3 interior.wav
+lift 1.wav
+Machine hum with heartbeat.wav
+MEADOW 3.wav
+MEADOW 4.wav
+Mid pitch pulsing hum.wav
+moon orbit atmosphere.wav
+moon temple atmosphere.wav
+Motor starts into constant run.wav
+Multiple motors 3 (larger).wav
+NEPAL.wav
+ommadawn atmosphere.wav
+OMNIDRONE.wav
+Particle beaming device 3.wav
+PASTORAL.wav
+phneumatics 001.wav
+Pulsating pink noises.wav
+Pulsing harmonic bass hum.wav
+Rocket impulse rise.wav
+Rocket liftoff.wav
+Rocket mash.wav
+Rocket riser.wav
+Rocket rumbler 2.wav
+SARADI BOW.wav
+SCANNER 005.wav
+Sea storm.wav
+ship drone 3.wav
+ship drone 4.wav
+ship inner doors 001.wav
+ship outer doors 003.wav
+ship outer doors 013.wav
+ship outer doors 016.wav
+ships control room 2.wav
+ships control room 4.wav
+ships control room 5.wav
+ships control room 7.wav
+ships engine room 6.wav
+ships engine room 7.wav
+SHORT SFX 030.wav
+SHORT SFX 048.wav
+SHORT SFX 065.wav
+SHORT SFX 080.wav
+silicon elements.wav
+Space transitions 005.wav
+Space transitions 006.wav
+Space transitions 007.wav
+Space transitions 008.wav
+Space transitions 010.wav
+Space transitions 012.wav
+SPACE VOID.wav
+STARSHIP FX1.wav
+STARSHIP FX10.wav
+STARSHIP FX11.wav
+STARSHIP FX2.wav
+STARSHIP FX47.wav
+STARSHIP FX52.wav
+STARSHIP FX54.wav
+STARSHIP FX9.wav
+STRANGE 017.wav
+TIBET 2.wav
+Underwater sunlight.wav
+underwater wash 1.wav
+underwater wash.wav
+underwaterwash 2.wav
+underwaterwash 3.wav
+XEON HEAVEN.wav
+XEON PITCHSHIFT 2.wav
+XEON PITCHSHIFT 3.wav
+XEON PITCHSHIFT 6.wav
+XEON PLANE.wav
+XEON SUMMER 1.wav
+XEON SUMMER 2.wav
