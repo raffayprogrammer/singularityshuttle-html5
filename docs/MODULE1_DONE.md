@@ -115,13 +115,12 @@ git log --oneline                       # → 1 commit (initial Module 1)
 ## Push to GitHub
 
 ```bash
-# Create empty repo on github.com first (no README, no .gitignore — we have ours)
-# Repo name suggestion: singularityshuttle-html5
-
 cd D:/SingularityShuttle
-git remote add origin https://github.com/<your-username>/singularityshuttle-html5.git
+git remote add origin https://github.com/raffayprogrammer/singularityshuttle-html5.git
 git push -u origin main
 ```
+
+**Done.** Repo live at: https://github.com/raffayprogrammer/singularityshuttle-html5
 
 ### Enable GitHub Pages
 

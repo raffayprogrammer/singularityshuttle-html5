@@ -46,6 +46,10 @@ The `build/` folder is fully self-contained static — deploy to any static host
 
 No server-side code, no build step, no DB.
 
+**Live staging URL:** https://raffayprogrammer.github.io/singularityshuttle-html5/
+
+Repo: https://github.com/raffayprogrammer/singularityshuttle-html5
+
 ## License / Credits
 
 Original content © Singularity Shuttle (2004).
