@@ -1,11 +1,6 @@
-# Source binaries — too large for git, kept locally / in cloud storage
-source/fla/
-source/swf/
-source/audio/wav/
-source/audio/sfk-archive/
-
-# Keep MP3 in git (smaller) but exempt large ones
-# source/audio/mp3/  -- include by default, override with .gitattributes if needed
+# Source files — kept locally only, not committed
+# All source content lives in source/ and is reproduced into pages/ as needed
+source/
 
 # Tools (downloaded, not source)
 tools/ruffle/

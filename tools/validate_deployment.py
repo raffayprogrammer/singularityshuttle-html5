@@ -1,0 +1,152 @@
+"""
+Hit every URL on the live Vercel deployment and confirm all return 200.
+
+Tests:
+  - / (landing page)
+  - /pages/SS2-X.html for all 31 pages
+  - /pages/SS2-X.swf for all 31 pages
+  - /pages/SS2-1-native.html (comparison build)
+  - /pages/native-assets/SS2-1/{frame,intro,middle}.png
+  - /pages/native-assets/SS2-1/audio-{1,2,3}.mp3
+
+Outputs a summary to stdout and writes docs/DEPLOYMENT_VALIDATION.md.
+"""
+import csv
+import urllib.request
+import urllib.error
+from pathlib import Path
+from datetime import datetime, timezone
+
+BASE = "https://singularityshuttle-html5.vercel.app"
+ROOT = Path(r"D:/SingularityShuttle")
+INVENTORY = ROOT / "docs" / "inventory.csv"
+OUT = ROOT / "docs" / "DEPLOYMENT_VALIDATION.md"
+
+
+def check(url, expected_min_size=0):
+    """Return (status, size_bytes, error_or_none)."""
+    req = urllib.request.Request(url, method="HEAD", headers={"User-Agent": "validate-deployment/1.0"})
+    try:
+        with urllib.request.urlopen(req, timeout=10) as r:
+            size = int(r.headers.get("Content-Length", 0))
+            return r.status, size, None
+    except urllib.error.HTTPError as e:
+        return e.code, 0, str(e)
+    except Exception as e:
+        return 0, 0, str(e)
+
+
+def main():
+    rows = []
+    with open(INVENTORY, encoding="utf-8") as f:
+        rows = list(csv.DictReader(f))
+
+    results = []
+
+    # 1) landing
+    results.append(("/", check(BASE + "/")))
+
+    # 2) per-page HTML + SWF
+    for r in rows:
+        pid = r["page_id"]
+        for ext in ("html", "swf"):
+            url = f"{BASE}/pages/{pid}.{ext}"
+            results.append((f"/pages/{pid}.{ext}", check(url)))
+
+    # 3) native build
+    results.append(("/pages/SS2-1-native.html", check(BASE + "/pages/SS2-1-native.html")))
+    for f in ("frame.png", "intro.png", "middle.png"):
+        url = f"{BASE}/pages/native-assets/SS2-1/{f}"
+        results.append((f"/pages/native-assets/SS2-1/{f}", check(url)))
+    for f in ("audio-1.mp3", "audio-2.mp3", "audio-3.mp3"):
+        url = f"{BASE}/pages/native-assets/SS2-1/{f}"
+        results.append((f"/pages/native-assets/SS2-1/{f}", check(url)))
+
+    # tally
+    ok = sum(1 for _, (s, _, _) in results if s == 200)
+    fail = sum(1 for _, (s, _, _) in results if s != 200)
+
+    print(f"\n=== validation summary ===")
+    print(f"total checked: {len(results)}")
+    print(f"OK (200):      {ok}")
+    print(f"FAILED:        {fail}")
+    if fail:
+        print(f"\n=== failures ===")
+        for path, (s, _, e) in results:
+            if s != 200:
+                print(f"  {s}  {path}  {e}")
+
+    # write report
+    now = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
+    lines = [
+        "# Deployment Validation Report",
+        "",
+        f"**Run at:** {now}",
+        f"**Base URL:** {BASE}",
+        f"**Result:** {'PASS' if fail == 0 else 'FAIL'} ({ok}/{len(results)} URLs returned 200)",
+        "",
+        "---",
+        "",
+        "## Summary",
+        "",
+        f"| Metric | Value |",
+        f"|---|---|",
+        f"| Total URLs checked | {len(results)} |",
+        f"| 200 OK | {ok} |",
+        f"| Non-200 | {fail} |",
+        "",
+        "## Coverage",
+        "",
+        "- 1 landing page (`/`)",
+        f"- {len(rows)} HTML page wrappers (`/pages/SS2-*.html`)",
+        f"- {len(rows)} SWF assets (`/pages/SS2-*.swf`)",
+        "- 1 native HTML5 comparison page (`/pages/SS2-1-native.html`)",
+        "- 6 native HTML5 assets (3 PNG + 3 MP3 in `/pages/native-assets/SS2-1/`)",
+        "",
+        "## Detailed Results",
+        "",
+        "| Path | Status | Size |",
+        "|---|---|---|",
+    ]
+    for path, (s, size, _) in results:
+        size_kb = f"{size // 1024} KB" if size else "—"
+        emoji = "OK" if s == 200 else "FAIL"
+        lines.append(f"| `{path}` | {emoji} {s} | {size_kb} |")
+
+    if fail:
+        lines += ["", "## Failures", ""]
+        for path, (s, _, e) in results:
+            if s != 200:
+                lines.append(f"- `{path}` returned {s}: {e}")
+
+    lines += [
+        "",
+        "---",
+        "",
+        "## What this validates",
+        "",
+        "- Every URL referenced from the landing page returns 200 (no 404s)",
+        "- Every page wrapper is reachable",
+        "- Every SWF asset is reachable (so Ruffle.js can fetch them)",
+        "- The native HTML5 comparison build's images and audio all load",
+        "",
+        "## What this does NOT validate",
+        "",
+        "- Whether each page renders correctly (needs a real browser)",
+        "- Whether Ruffle.js plays each SWF without errors (needs browser)",
+        "- Whether audio plays / animation runs / buttons work (needs interactive testing)",
+        "- Cross-browser compatibility (only checks Vercel responds — not what each browser does)",
+        "- Mobile rendering, responsive scaling, autoplay policies",
+        "",
+        "Those are covered by the manual cross-browser matrix and Lighthouse audit (see `BROWSER_MATRIX.md`).",
+        "",
+        f"*Auto-generated by `tools/validate_deployment.py`. Re-run anytime to re-validate.*",
+        "",
+    ]
+
+    OUT.write_text("\n".join(lines), encoding="utf-8")
+    print(f"\nreport written to: {OUT}")
+
+
+if __name__ == "__main__":
+    main()
