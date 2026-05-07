@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+<title>A Question of Time · Native HTML5 · Singularity Shuttle</title>
+<meta name="description" content="Native HTML5 build of SS2-1 — no Flash, no Ruffle. Comparison build.">
+<style>
+  *, *::before, *::after { box-sizing: border-box; }
+  html, body {
+    margin: 0; padding: 0;
+    background:
+      radial-gradient(ellipse at top, rgba(34,197,94,0.08) 0%, transparent 50%),
+      radial-gradient(ellipse at bottom, rgba(50,80,200,0.06) 0%, transparent 60%),
+      #0a0a0a;
+    color: #f0f0f0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: inherit; }
+
+  .page-header {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 32px 24px 16px;
+    text-align: center;
+  }
+  .breadcrumb {
+    font-size: 12px; color: #888; margin-bottom: 12px; letter-spacing: 0.4px;
+  }
+  .breadcrumb a { color: #aaa; text-decoration: none; }
+  .breadcrumb a:hover { color: #22c55e; }
+  .breadcrumb span { color: #444; margin: 0 8px; }
+  .badge-row { display: flex; justify-content: center; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
+  .badge {
+    display: inline-block;
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-size: 11px; font-weight: 600; letter-spacing: 1px;
+  }
+  .badge-id {
+    background: rgba(237,21,21,0.15);
+    border: 1px solid rgba(237,21,21,0.4);
+    color: #ff6b6b;
+  }
+  .badge-native {
+    background: rgba(34,197,94,0.15);
+    border: 1px solid rgba(34,197,94,0.4);
+    color: #4ade80;
+  }
+  .page-title {
+    font-size: clamp(24px, 4vw, 34px);
+    font-weight: 700;
+    margin: 8px 0 6px;
+    letter-spacing: -0.5px;
+  }
+  .page-section { color: #888; font-size: 14px; margin-bottom: 8px; }
+  .page-meta {
+    color: #555; font-size: 11px;
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    letter-spacing: 0.5px;
+  }
+
+  .player-area {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 12px 12px 32px;
+  }
+  .stage {
+    position: relative;
+    width: 100%;
+    max-width: 684px;
+    aspect-ratio: 684 / 1795;
+    background: #d0d0d0;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow:
+      0 0 0 1px rgba(255,255,255,0.04),
+      0 16px 48px rgba(0,0,0,0.5),
+      0 0 80px rgba(34,197,94,0.06);
+  }
+  .stage img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top;
+    opacity: 0;
+    transition: opacity 0.6s ease;
+  }
+  .stage.playing .frame-1 { animation: f1 12s forwards; }
+  .stage.playing .frame-2 { animation: f2 12s forwards; }
+  .stage.playing .frame-3 { animation: f3 12s forwards; }
+  @keyframes f1 {
+    0% { opacity: 0; }
+    8%, 28% { opacity: 1; }
+    40% { opacity: 0; }
+    100% { opacity: 0; }
+  }
+  @keyframes f2 {
+    0%, 33% { opacity: 0; }
+    45%, 63% { opacity: 1; }
+    75% { opacity: 0; }
+    100% { opacity: 0; }
+  }
+  @keyframes f3 {
+    0%, 66% { opacity: 0; }
+    78%, 100% { opacity: 1; }
+  }
+  .stage.settled .frame-3 { opacity: 1; }
+
+  .play-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.85);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    cursor: pointer;
+    z-index: 10;
+    transition: opacity 0.4s ease;
+  }
+  .play-overlay.hidden { opacity: 0; pointer-events: none; }
+  .play-icon {
+    width: 72px; height: 72px;
+    border-radius: 50%;
+    background: #22c55e;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 32px;
+    margin-bottom: 16px;
+    box-shadow: 0 0 32px rgba(34,197,94,0.5);
+    transition: transform 200ms;
+  }
+  .play-overlay:hover .play-icon { transform: scale(1.05); }
+  .play-label { font-size: 16px; font-weight: 600; letter-spacing: 0.5px; }
+  .play-hint { font-size: 12px; opacity: 0.6; margin-top: 8px; max-width: 280px; text-align: center; }
+
+  .actions {
+    width: 100%;
+    max-width: 684px;
+    margin: 24px auto 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 8px;
+  }
+  .action {
+    background: linear-gradient(135deg, #161616 0%, #0e0e0e 100%);
+    border: 1px solid #222;
+    border-radius: 8px;
+    padding: 14px 16px;
+    text-align: center;
+    text-decoration: none;
+    color: #ddd;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 200ms;
+  }
+  .action:hover {
+    border-color: #22c55e;
+    color: #fff;
+    transform: translateY(-1px);
+  }
+  .action.next { background: linear-gradient(135deg, rgba(34,197,94,0.15) 0%, #0e0e0e 100%); border-color: rgba(34,197,94,0.4); }
+
+  nav.bottombar {
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    padding: 10px 16px;
+    background: rgba(10,10,10,0.92);
+    border-top: 1px solid #1a1a1a;
+    color: #888;
+    text-align: center;
+    font-size: 12px;
+    z-index: 100;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+  nav.bottombar a { color: #ddd; text-decoration: none; margin: 0 8px; font-weight: 500; }
+  nav.bottombar a:hover { color: #22c55e; }
+  nav.bottombar .sep { color: #333; margin: 0 4px; }
+</style>
+</head>
+<body>
+
+<header class="page-header">
+  <div class="breadcrumb">
+    <a href="/">Singularity Shuttle</a>
+    <span>›</span>
+    <a href="/#contents">Pages</a>
+    <span>›</span>
+    SS2-1 (Native HTML5)
+  </div>
+  <div class="badge-row">
+    <span class="badge badge-id">SS2-1</span>
+    <span class="badge badge-native">NATIVE HTML5 · NO FLASH</span>
+  </div>
+  <h1 class="page-title">A Question of Time</h1>
+  <div class="page-section">Introduction · Comparison build</div>
+  <div class="page-meta">Built from extracted assets · No Ruffle, no Adobe Animate</div>
+</header>
+
+<div class="player-area">
+  <div class="stage" id="stage">
+    <img class="frame-1" src="native-assets/SS2-1/intro.png" alt="Sky and clouds">
+    <img class="frame-2" src="native-assets/SS2-1/middle.png" alt="Cockpit with Singularity Shuttle title">
+    <img class="frame-3" src="native-assets/SS2-1/frame.png" alt="Welcome to the Singularity Shuttle — full text">
+    <div class="play-overlay" id="overlay">
+      <div class="play-icon">▶</div>
+      <div class="play-label">Begin Experience</div>
+      <div class="play-hint">Native HTML5 build · animation simulated, audio + content from original SWF</div>
+    </div>
+  </div>
+
+  <div class="actions">
+    <a class="action" href="mailto:singularityshuttle@gmail.com">✉ Email Author</a>
+    <a class="action" href="/pages/SS2-J.html">⊞ Contents</a>
+    <a class="action" href="/">⌂ Home</a>
+    <a class="action next" href="/pages/SS2-2.html">Next: Newton's Universe →</a>
+  </div>
+</div>
+
+<audio id="aud1" preload="auto" src="native-assets/SS2-1/audio-1.mp3"></audio>
+<audio id="aud2" preload="auto" src="native-assets/SS2-1/audio-2.mp3"></audio>
+
+<nav class="bottombar">
+  <a href="/pages/SS2-1.html">‹ Ruffle.js version</a>
+  <span class="sep">·</span>
+  <a href="/">Home</a>
+  <span class="sep">·</span>
+  <a href="/pages/SS2-J.html">Contents</a>
+  <span class="sep">·</span>
+  <a href="/pages/SS2-2.html">Next ›</a>
+</nav>
+
+<script>
+  var stage = document.getElementById("stage");
+  var overlay = document.getElementById("overlay");
+  var aud1 = document.getElementById("aud1");
+  var aud2 = document.getElementById("aud2");
+
+  function begin() {
+    overlay.classList.add("hidden");
+    stage.classList.add("playing");
+    aud1.play().catch(function(){});
+    aud1.addEventListener("ended", function() {
+      aud2.play().catch(function(){});
+    }, { once: true });
+    setTimeout(function() {
+      stage.classList.add("settled");
+    }, 12000);
+  }
+
+  overlay.addEventListener("click", begin);
+  overlay.addEventListener("touchend", function(e) { e.preventDefault(); begin(); });
+</script>
+
+</body>
+</html>

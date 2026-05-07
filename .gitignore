@@ -9,7 +9,11 @@ source/audio/sfk-archive/
 
 # Tools (downloaded, not source)
 tools/ruffle/
+tools/jpexs/
+tools/jre-extract/
+tools/extracted/
 tools/*.exe
+tools/*.zip
 
 # Adobe Animate working files (binary, not for git)
 *.fla.bak
