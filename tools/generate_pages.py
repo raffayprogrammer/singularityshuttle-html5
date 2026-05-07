@@ -36,6 +36,14 @@ TEMPLATE = """<!DOCTYPE html>
 <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 <title>{title} · Singularity Shuttle</title>
 <meta name="description" content="Singularity Shuttle · {page_id} · {title}">
+
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<meta name="theme-color" content="#0a0a0a">
+
+<meta property="og:type" content="article">
+<meta property="og:title" content="{title} · Singularity Shuttle">
+<meta property="og:description" content="{page_id} — part of the 31-page Singularity Shuttle restoration.">
+<meta property="og:site_name" content="Singularity Shuttle">
 <style>
   *, *::before, *::after {{ box-sizing: border-box; }}
   html, body {{

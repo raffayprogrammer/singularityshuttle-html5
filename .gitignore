@@ -10,6 +10,14 @@ tools/extracted/
 tools/*.exe
 tools/*.zip
 
+# npm dependencies (Lighthouse + Playwright — installed locally for dev)
+node_modules/
+package.json
+package-lock.json
+
+# Handover bundles (artifacts, regeneratable from tools/build_handover.py)
+handover/
+
 # Adobe Animate working files (binary, not for git)
 *.fla.bak
 *.xfl/
