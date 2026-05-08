@@ -111,6 +111,7 @@ TEMPLATE = """<!DOCTYPE html>
     padding: 8px 12px 80px;
   }}
   #player {{
+    position: relative;
     width: 100%;
     max-width: {stage_w}px;
     aspect-ratio: {stage_w} / {stage_h};
@@ -121,6 +122,13 @@ TEMPLATE = """<!DOCTYPE html>
       0 0 0 1px rgba(255,255,255,0.04),
       0 16px 48px rgba(0,0,0,0.5),
       0 0 80px rgba(237,21,21,0.06);
+  }}
+  #player ruffle-player {{
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
   }}
   nav.bottombar {{
     position: fixed;
