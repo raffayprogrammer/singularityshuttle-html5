@@ -3,213 +3,144 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-<title>A Question of Time · Singularity Shuttle</title>
-<meta name="description" content="Singularity Shuttle · SS2-1 · A Question of Time">
-
-<link rel="icon" type="image/svg+xml" href="/favicon.svg">
-<meta name="theme-color" content="#0a0a0a">
-
-<meta property="og:type" content="article">
-<meta property="og:title" content="A Question of Time · Singularity Shuttle">
-<meta property="og:description" content="SS2-1 — part of the 31-page Singularity Shuttle restoration.">
-<meta property="og:site_name" content="Singularity Shuttle">
+<title>Singularity Shuttle</title>
 <style>
-  *, *::before, *::after { box-sizing: border-box; }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   html, body {
-    margin: 0; padding: 0;
-    background:
-      radial-gradient(ellipse at top, rgba(237,21,21,0.08) 0%, transparent 50%),
-      radial-gradient(ellipse at bottom, rgba(50,80,200,0.06) 0%, transparent 60%),
-      #0a0a0a;
-    color: #f0f0f0;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+    background: #1a1a1a;
     min-height: 100vh;
-    -webkit-font-smoothing: antialiased;
-  }
-  a { color: inherit; }
-  .page-header {
-    max-width: 720px;
-    margin: 0 auto;
-    padding: 32px 24px 16px;
-    text-align: center;
-  }
-  .breadcrumb {
-    font-size: 12px;
-    color: #888;
-    margin-bottom: 12px;
-    letter-spacing: 0.4px;
-  }
-  .breadcrumb a { color: #aaa; text-decoration: none; }
-  .breadcrumb a:hover { color: #ed1515; }
-  .breadcrumb span { color: #444; margin: 0 8px; }
-  .page-id {
-    display: inline-block;
-    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-    background: rgba(237,21,21,0.15);
-    border: 1px solid rgba(237,21,21,0.4);
-    color: #ff6b6b;
-    padding: 4px 10px;
-    border-radius: 4px;
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 1px;
-    margin-bottom: 12px;
-  }
-  .page-title {
-    font-size: clamp(24px, 4vw, 34px);
-    font-weight: 700;
-    margin: 8px 0 6px;
-    letter-spacing: -0.5px;
-    line-height: 1.15;
-  }
-  .page-section {
-    color: #888;
-    font-size: 14px;
-    margin-bottom: 8px;
-  }
-  .page-meta {
-    color: #555;
-    font-size: 11px;
-    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-    letter-spacing: 0.5px;
-  }
-  #stageWrap {
-    width: 100%;
     display: flex;
     justify-content: center;
-    padding: 8px 12px 80px;
+    align-items: flex-start;
+    padding: 24px 12px;
   }
-  #player {
+  #animation_container {
+    border: 3px solid #ffffff;
     position: relative;
-    width: 100%;
-    max-width: 684px;
-    aspect-ratio: 684 / 1795;
-    background: #000;
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow:
-      0 0 0 1px rgba(255,255,255,0.04),
-      0 16px 48px rgba(0,0,0,0.5),
-      0 0 80px rgba(237,21,21,0.06);
+    width: 684px;
+    height: 1795px;
+    background-color: rgba(208,208,208,1.00);
   }
-  #player ruffle-player {
+  canvas#canvas {
     position: absolute;
-    top: 0; left: 0;
-    width: 100%;
-    height: 100%;
+    display: block;
+    background-color: rgba(208,208,208,1.00);
+  }
+  #dom_overlay_container {
+    pointer-events: none;
+    overflow: hidden;
+    width: 684px;
+    height: 1795px;
+    position: absolute;
+    left: 0; top: 0;
     display: block;
   }
-  nav.bottombar {
-    position: fixed;
-    bottom: 0; left: 0; right: 0;
-    padding: 10px 16px;
-    background: rgba(10,10,10,0.92);
-    border-top: 1px solid #1a1a1a;
-    color: #888;
-    text-align: center;
-    font-size: 12px;
-    z-index: 100;
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-  }
-  nav.bottombar a {
-    color: #ddd;
-    text-decoration: none;
-    margin: 0 8px;
-    font-weight: 500;
-    transition: color 150ms;
-  }
-  nav.bottombar a:hover { color: #ed1515; }
-  nav.bottombar .sep { color: #333; margin: 0 4px; }
-  nav.bottombar .ghost { color: #555; }
 </style>
 </head>
 <body>
 
-<script>
-  // URL rewriting — three independent overrides for Ruffle's navigation paths
-  (function () {
-    function remap(u) {
-      if (typeof u !== "string") return u;
-      var m = u.match(/^https?:\/\/(www\.)?singularityshuttle\.com\/(.*)$/i);
-      if (!m) return u;
-      var path = m[2];
-      if (path === "" || path.toLowerCase() === "index.html") return "/";
-      return "/pages/" + path;
-    }
-
-    var origOpen = window.open.bind(window);
-    window.open = function (url, name, features) {
-      return origOpen(remap(url), name, features);
-    };
-
-    try {
-      var loc = window.location;
-      var ass = loc.assign && loc.assign.bind(loc);
-      if (ass) loc.assign = function (u) { return ass(remap(u)); };
-      var rep = loc.replace && loc.replace.bind(loc);
-      if (rep) loc.replace = function (u) { return rep(remap(u)); };
-    } catch (e) { /* silent */ }
-
-    try {
-      var proto = Location.prototype;
-      var d = Object.getOwnPropertyDescriptor(proto, "href");
-      if (d && d.set) {
-        var origSet = d.set;
-        Object.defineProperty(proto, "href", {
-          configurable: true, enumerable: true,
-          get: d.get,
-          set: function (v) { return origSet.call(this, remap(v)); }
-        });
-      }
-    } catch (e) { /* silent */ }
-  })();
-</script>
-
-<header class="page-header">
-  <div class="breadcrumb">
-    <a href="/">Singularity Shuttle</a>
-    <span>›</span>
-    <a href="/#contents">Pages</a>
-    <span>›</span>
-    SS2-1
-  </div>
-  <span class="page-id">SS2-1</span>
-  <h1 class="page-title">A Question of Time</h1>
-  <div class="page-section">Introduction</div>
-  <div class="page-meta">684 × 1795 · Restored from original 2004 Flash via Ruffle.js</div>
-</header>
-
-<div id="stageWrap">
-  <div id="player"></div>
+<div id="animation_container">
+  <canvas id="canvas" width="684" height="1795"></canvas>
+  <div id="dom_overlay_container"></div>
 </div>
 
-<nav class="bottombar">
-  <span class="ghost">‹ Previous</span>
-  <span class="sep">·</span>
-  <a href="/">Home</a>
-  <span class="sep">·</span>
-  <a href="/pages/SS2-J.html">Contents</a>
-  <span class="sep">·</span>
-  <a href="/pages/SS2-1text.html">Next ›</a>
-</nav>
-
-<script src="https://unpkg.com/@ruffle-rs/ruffle"></script>
+<script src="https://code.createjs.com/1.0.0/createjs.min.js"></script>
+<script src="SS2-1.js"></script>
 <script>
-  window.RufflePlayer = window.RufflePlayer || {};
-  window.addEventListener("load", function () {
-    var ruffle = window.RufflePlayer.newest();
-    var player = ruffle.createPlayer();
-    var container = document.getElementById("player");
-    container.appendChild(player);
-    player.load({
-      url: "SS2-1.swf",
-      autoplay: "auto",
-      unmuteOverlay: "visible",
-      letterbox: "on",
-      scale: "showAll"
+var canvas, stage, exportRoot, anim_container, dom_overlay_container;
+
+var urlMap = {
+  "http://www.singularityshuttle.com/index.html": "/",
+  "http://www.singularityshuttle.com/":           "/",
+  "http://www.singularityshuttle.com/SS2-J.html": "/pages/SS2-J.html",
+  "http://www.singularityshuttle.com/SS2-2.html": "/pages/SS2-2.html"
+};
+
+function navigate(url) {
+  if (url && url.indexOf("mailto:") === 0) {
+    window.open(url, "_blank");
+  } else {
+    window.location.href = urlMap[url] || url;
+  }
+}
+
+function init() {
+  canvas                = document.getElementById("canvas");
+  anim_container        = document.getElementById("animation_container");
+  dom_overlay_container = document.getElementById("dom_overlay_container");
+
+  var comp = AdobeAn.getComposition("87640522018F644AB3203A1642E950C6");
+  var lib  = comp.getLibrary();
+
+  var loader = new createjs.LoadQueue(false);
+  loader.installPlugin(createjs.Sound);
+  loader.addEventListener("fileload", function(evt){ handleFileLoad(evt, comp); });
+  loader.addEventListener("complete", function(evt){ handleComplete(evt, comp); });
+  loader.loadManifest(lib.properties.manifest);
+}
+
+function handleFileLoad(evt, comp) {
+  var images = comp.getImages();
+  if (evt && evt.item.type === "image") { images[evt.item.id] = evt.result; }
+}
+
+function handleComplete(evt, comp) {
+  var lib        = comp.getLibrary();
+  var ss         = comp.getSpriteSheet();
+  var queue      = evt.target;
+  var ssMetadata = lib.ssMetadata;
+
+  for (var i = 0; i < ssMetadata.length; i++) {
+    ss[ssMetadata[i].name] = new createjs.SpriteSheet({
+      images: [queue.getResult(ssMetadata[i].name)],
+      frames: ssMetadata[i].frames
     });
+  }
+
+  // loop=false: plays once, stops at last frame
+  exportRoot = new lib.SS21_HTML5Canvas(undefined, 0, false);
+  stage      = new lib.Stage(canvas);
+  stage.enableMouseOver();
+
+  stage.addChild(exportRoot);
+  createjs.Ticker.framerate = lib.properties.fps;
+  createjs.Ticker.addEventListener("tick", stage);
+
+  // Bind button handlers after first draw
+  stage.on("drawend", function wireOnce() {
+    stage.off("drawend", wireOnce);
+    bindButtons();
   });
+
+  AdobeAn.makeResponsive(false, 'both', false, 1, [canvas, anim_container, dom_overlay_container]);
+  AdobeAn.compositionLoaded(lib.properties.id);
+}
+
+function bindButtons() {
+  var bindings = [
+    { inst: exportRoot.instance_54, url: "http://www.singularityshuttle.com/SS2-2.html" },
+    { inst: exportRoot.instance_53, url: "http://www.singularityshuttle.com/index.html" },
+    { inst: exportRoot.instance_52, url: "http://www.singularityshuttle.com/SS2-J.html" },
+    { inst: exportRoot.instance_51, url: "mailto:singularityshuttle@gmail.com" },
+    { inst: exportRoot.instance_55, url: "mailto:singularityshuttle@gmail.com" },
+    { inst: exportRoot.instance_61, url: "mailto:ransomt@comcast.net" }
+  ];
+  bindings.forEach(function(b) {
+    if (!b.inst) return;
+    b.inst.cursor = "pointer";
+    b.inst.addEventListener("click", function(){ navigate(b.url); });
+  });
+}
+
+function playSound(id, loop, offset) {
+  return createjs.Sound.play(id, {
+    interrupt: createjs.Sound.INTERRUPT_EARLY,
+    loop:   loop   || 0,
+    offset: offset || 0
+  });
+}
+
+window.addEventListener("load", init);
 </script>
 
 </body>
