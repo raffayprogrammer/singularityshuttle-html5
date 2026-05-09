@@ -112,7 +112,11 @@ function handleComplete(evt, comp) {
     bindButtons();
   });
 
-  AdobeAn.makeResponsive(false, 'both', false, 1, [canvas, anim_container, dom_overlay_container]);
+  // Fixed size — no responsive scaling. Stage is exactly 684x1795.
+  stage.scaleX = 1;
+  stage.scaleY = 1;
+  canvas.width  = 684;
+  canvas.height = 1795;
   AdobeAn.compositionLoaded(lib.properties.id);
 }
 
