@@ -23,6 +23,9 @@
   }
   canvas#canvas {
     position: absolute;
+    left: 0; top: 0;
+    width: 684px;
+    height: 1795px;
     display: block;
     background-color: rgba(208,208,208,1.00);
   }
@@ -112,11 +115,12 @@ function handleComplete(evt, comp) {
     bindButtons();
   });
 
-  // Fixed size — no responsive scaling. Stage is exactly 684x1795.
-  stage.scaleX = 1;
-  stage.scaleY = 1;
-  canvas.width  = 684;
-  canvas.height = 1795;
+  // Scale canvas backing store to device pixel ratio so content fills the full 684×1795 CSS area on HiDPI displays
+  var pRatio = window.devicePixelRatio || 1;
+  canvas.width  = Math.round(684 * pRatio);
+  canvas.height = Math.round(1795 * pRatio);
+  stage.scaleX  = pRatio;
+  stage.scaleY  = pRatio;
   AdobeAn.compositionLoaded(lib.properties.id);
 }
 
