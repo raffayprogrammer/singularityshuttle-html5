@@ -1,6 +1,5 @@
 {
   "redirects": [
-    { "source": "/", "destination": "/pages/SS2-1.html", "permanent": false },
     { "source": "/pages/SS2-1text.html", "destination": "/pages/SS2-1.html", "permanent": false },
     { "source": "/pages/SS2-2.html", "destination": "/pages/SS2-1.html", "permanent": false },
     { "source": "/pages/SS2-2text.html", "destination": "/pages/SS2-1.html", "permanent": false },
